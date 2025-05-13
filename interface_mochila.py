@@ -21,11 +21,11 @@ COR_ENTRADA_TEXTO = "#00FFFF" # Ciano Neon
 COR_CANVAS_FUNDO = "#000033" # Azul noite escuro
 CORES_ITENS_MOCHILA = ["#FF69B4", "#39FF14", "#FFA500", "#7FFF00", "#F4D03F", "#00E5EE"]
 
-FONTE_PRINCIPAL_80S = ("Courier New", 10)
-FONTE_TITULO_80S = ("Courier New", 11, "bold") # Levemente menor para caber melhor como título de frame
-FONTE_LABEL_ENTRADA_80S = ("Courier New", 9) # Fonte para labels dos campos de entrada
-FONTE_BOTAO_80S = ("Courier New", 10, "bold")
-FONTE_TEXTO_AREA_80S = ("Courier New", 10)
+FONTE_PRINCIPAL_80S = ("Segoe IU", 10)
+FONTE_TITULO_80S = ("Segoe IU", 11, "bold") # Levemente menor para caber melhor como título de frame
+FONTE_LABEL_ENTRADA_80S = ("Segoe IU", 9) # Fonte para labels dos campos de entrada
+FONTE_BOTAO_80S = ("Segoe IU", 10, "bold")
+FONTE_TEXTO_AREA_80S = ("Segoe IU", 10)
 
 class AplicacaoMochila:
     def __init__(self, master):
@@ -426,6 +426,4 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-print("Interface gráfica atualizada para o estilo Anos 80. Layout de títulos ajustado.")
 
