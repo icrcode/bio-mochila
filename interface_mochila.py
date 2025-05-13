@@ -105,9 +105,23 @@ class AplicacaoMochila:
         frame_geradores_container.pack(pady=10, padx=5, fill="x")
         frame_geradores = ttk.Frame(frame_geradores_container, style="TFrame", padding=(10,5,10,10))
         frame_geradores.pack(fill="x")
+        frame_geradores.columnconfigure(1, weight=1) # Add for entry to expand if needed
         self.btn_gerar_padrao = ttk.Button(frame_geradores, text="LOAD TEST SET (10)", command=self.gerar_itens_padrao, style="TButton")
         self.btn_gerar_padrao.pack(pady=5, fill="x", padx=5)
-        self.btn_gerar_aleatorios = ttk.Button(frame_geradores, text="LOAD RANDOM (5)", command=self.gerar_itens_aleatorios, style="TButton")
+
+        # New: Label and Entry for number of random items
+        frame_qtd_random = ttk.Frame(frame_geradores, style="TFrame") # A sub-frame for label and entry
+        frame_qtd_random.pack(fill="x", pady=(5,0), padx=5) # Pack it before the button
+        
+        lbl_qtd_aleatorios = ttk.Label(frame_qtd_random, text="QTD ITENS RAND:")
+        lbl_qtd_aleatorios.pack(side="left", padx=(0,5))
+
+        self.entry_qtd_aleatorios = ttk.Entry(frame_qtd_random, width=5, style="TEntry") # width 5 should be enough
+        self.entry_qtd_aleatorios.pack(side="left", fill="x", expand=True)
+        self.entry_qtd_aleatorios.insert(0, "5") # Default value
+
+        # Modified button: text changed, command remains the same, but the method will be modified
+        self.btn_gerar_aleatorios = ttk.Button(frame_geradores, text="ADD RANDOM ITEMS", command=self.gerar_itens_aleatorios, style="TButton")
         self.btn_gerar_aleatorios.pack(pady=5, fill="x", padx=5)
 
         frame_parametros_container = criar_retro_labelframe(left_column_frame, "ALGORITHM SETUP")
@@ -207,7 +221,20 @@ class AplicacaoMochila:
         messagebox.showinfo("ITENS GERADOS", "10 ITENS DE TESTE PADRAO CARREGADOS!", parent=self.master, 
                             icon="info", title="INFO SYS")
 
-    def gerar_itens_aleatorios(self, quantidade=5):
+    def gerar_itens_aleatorios(self):
+        try:
+            quantidade_str = self.entry_qtd_aleatorios.get().strip()
+            if not quantidade_str:
+                messagebox.showerror("ERRO DE ENTRADA", "QUANTIDADE DE ITENS ALEATORIOS E OBRIGATORIA.", parent=self.master, icon="error", title="SYSTEM ERROR")
+                return
+            quantidade = int(quantidade_str)
+            if quantidade <= 0:
+                messagebox.showerror("ERRO DE ENTRADA", "QUANTIDADE DEVE SER UM NUMERO POSITIVO.", parent=self.master, icon="error", title="SYSTEM ERROR")
+                return
+        except ValueError:
+            messagebox.showerror("ERRO DE ENTRADA", "QUANTIDADE INVALIDA. INSIRA UM NUMERO INTEIRO.", parent=self.master, icon="error", title="SYSTEM ERROR")
+            return
+
         self.limpar_lista_itens(confirmar=False)
         novos_itens = []
         for i in range(quantidade):
@@ -269,7 +296,7 @@ class AplicacaoMochila:
         if not self.itens_para_algoritmo: self.texto_itens_adicionados.insert(tk.END, "NENHUM ITEM ADICIONADO.")
         else:
             for i, item in enumerate(self.itens_para_algoritmo):
-                self.texto_itens_adicionados.insert(tk.END, f"{i+1}. {item["nome"]} (P:{item["peso"]}, V:{item["valor"]})\n")
+                self.texto_itens_adicionados.insert(tk.END, f"{i+1}. {item['nome']} (P:{item['peso']}, V:{item['valor']})\n")
         self.texto_itens_adicionados.configure(state="disabled")
 
     def executar_algoritmo_genetico(self):
@@ -306,7 +333,8 @@ class AplicacaoMochila:
             if melhor_solucao:
                 for i, sel in enumerate(melhor_solucao):
                     if sel: itens_selecionados_nomes.append(self.itens_para_algoritmo[i]["nome"]); itens_selecionados_para_desenho.append(self.itens_para_algoritmo[i])
-            self.texto_resultado.insert(tk.END, f"ITENS NA MOCHILA: {", ".join(itens_selecionados_nomes) if itens_selecionados_nomes else "NENHUM ITEM SELECIONADO!"}\n")
+            itens_formatados = ", ".join(itens_selecionados_nomes) if itens_selecionados_nomes else "NENHUM ITEM SELECIONADO!"
+            self.texto_resultado.insert(tk.END, f"ITENS NA MOCHILA: {itens_formatados}\n")
             self.texto_resultado.insert(tk.END, f"VALOR TOTAL: {melhor_valor}\nPESO TOTAL: {peso_final} (CAP: {capacidade})\n")
             self.texto_resultado.configure(state="disabled")
             self.animar_itens_na_mochila_sequencial(itens_selecionados_para_desenho, capacidade)
@@ -342,7 +370,7 @@ class AplicacaoMochila:
                 max_h_linha = 0
             
             if final_y + item_altura_canvas > h_canvas - 15:
-                print(f"Item {item_atual["nome"]} nao cabe visualmente, pulando animacao restante.")
+                print(f"Item {item_atual['nome']} nao cabe visualmente, pulando animacao restante.")
                 self.master.after(velocidade_animacao_ms, lambda: self.animar_itens_na_mochila_sequencial(itens_selecionados, capacidade_total_mochila, len(itens_selecionados), final_x, final_y, max_h_linha))
                 return
 
