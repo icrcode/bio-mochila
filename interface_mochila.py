@@ -6,7 +6,6 @@ from tkinter import ttk, scrolledtext, messagebox, font
 import mochila_genetico # importando o módulo do algoritmo genético
 import random
 
-# --- configuração da interface estilo anos 80 (synthwave/outrun) ---
 COR_FUNDO_PRINCIPAL = "#0D0221" # Roxo espacial / Azul muito escuro
 COR_FUNDO_SECUNDARIO = "#2A1B3D" # Roxo escuro um pouco mais claro
 COR_CONTORNO_FRAMES = "#FF00FF" # Magenta Neon
