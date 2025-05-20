@@ -29,7 +29,7 @@ FONTE_TEXTO_AREA_80S = ("Segoe IU", 10)
 class AplicacaoMochila:
     def __init__(self, master):
         self.master = master
-        master.title("MOCHILA RADICAL 80s - GENETIC ALGORITHM")
+        master.title("BIO-MOCHILA - GENETIC ALGORITHM")
         master.configure(bg=COR_FUNDO_PRINCIPAL)
         master.geometry("950x800") # Aumentado um pouco mais para garantir espaço
         master.minsize(900, 750)
