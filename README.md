@@ -17,7 +17,7 @@ Este repositório contém implementações e experimentos relacionados ao proble
 1. Clone o repositório:
 
     ```bash
-    git clone https://github.com/seu-usuario/bio-mochila.git
+    git clone https://github.com/icrcode/bio-mochila.git
     ```
 
 2. Instale as dependências (se houver):
@@ -26,7 +26,13 @@ Este repositório contém implementações e experimentos relacionados ao proble
     pip install -r requirements.txt
     ```
 
-3. Execute o projeto conforme as instruções nos arquivos de exemplo.
+3. Execute o projeto:
+
+    ```bash
+    python interface_mochila.py
+    ```
+
+4. Seja Feliz.
 
 ## Estrutura
 
